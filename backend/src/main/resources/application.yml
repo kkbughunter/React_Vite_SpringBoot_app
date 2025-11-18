@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: Office Backend
+
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://192.168.1.37:3306/onboarding?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: nadalbus_bgv
+    password: Nadal@bgv123
+    
+    # Connection Pool Settings
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+  
+  # JPA/Hibernate Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  
+  # File Upload Configuration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# Application Specific Configuration
+app:
+  jwt:
+    secret: ${JWT_SECRET:very-unsafe-dev-secret-change-me}
+    expiration-ms: 3600000  # 1 hour
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.office.backend: DEBUG
+    org.apache.tomcat.util.http.parser.Cookie: ERROR
+
+# Server Configuration
+server:
+  port: 8080
+  
+  # Enable response compression
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/xml,text/plain
+  
+  # Tomcat optimization
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
