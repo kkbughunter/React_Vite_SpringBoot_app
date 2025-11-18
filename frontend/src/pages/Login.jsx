@@ -17,8 +17,9 @@ export default function Login() {
         alert("Registration successful! Please login.");
         setIsRegister(false);
       } else {
-        await login({ username, password });
-        navigate("/dashboard");
+        const response = await login({ username, password });
+        localStorage.setItem('token', response.token);
+        navigate("/");
       }
     } catch (err) {
       // Error is handled by the hook

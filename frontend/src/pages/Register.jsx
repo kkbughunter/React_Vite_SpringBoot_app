@@ -10,9 +10,11 @@ export default function Register() {
   const registerUser = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/auth/register", { username, password });
-      alert("Registration successful! Please login.");
-      navigate("/"); // redirect to login
+      const response = await API.post("/auth/register", { username, password });
+      localStorage.setItem('user', JSON.stringify(response.data));
+      localStorage.setItem('token', 'demo-token');
+      alert("Registration successful!");
+      navigate("/");
     } catch (err) {
       alert("Registration failed (username may exist)");
     }
@@ -46,12 +48,11 @@ export default function Register() {
         </button>
 
         <p className="text-center text-sm">
-          Already have an account?
           <span
             className="text-blue-600 cursor-pointer ml-1"
             onClick={() => navigate("/")}
           >
-            Login
+            Go to Home
           </span>
         </p>
       </form>

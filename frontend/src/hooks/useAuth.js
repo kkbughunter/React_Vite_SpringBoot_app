@@ -14,6 +14,9 @@ export const useAuth = () => {
       setError(null);
       const response = await authService.login(credentials);
       localStorage.setItem('token', response.token);
+      if (response.user) {
+        localStorage.setItem('user', JSON.stringify(response.user));
+      }
       return response;
     } catch (err) {
       setError(err.response?.data || err.message);

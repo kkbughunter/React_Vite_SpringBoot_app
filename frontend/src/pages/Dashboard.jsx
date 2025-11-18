@@ -10,9 +10,10 @@ export default function Dashboard() {
     async function fetchUser() {
       try {
         const res = await API.get("/user/me");
-        setUsername(res.data);
+        setUsername(res.data.username || 'User');
       } catch (err) {
         console.error("Error fetching user", err);
+        setUsername('Demo User');
       }
     }
     fetchUser();
@@ -31,6 +32,12 @@ export default function Dashboard() {
             Welcome, {username} 👋
           </h1>
           <div className="space-y-4">
+            <Link
+              to="/products"
+              className="block px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              Browse Products
+            </Link>
             <Link
               to="/items"
               className="block px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
