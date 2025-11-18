@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OfficeBackendApplication {
+public class PreOnboardingBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OfficeBackendApplication.class, args);
+		SpringApplication.run(PreOnboardingBackendApplication.class, args);
 	}
 
 }
