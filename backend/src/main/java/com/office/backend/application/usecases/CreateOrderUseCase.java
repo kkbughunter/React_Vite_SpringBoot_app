@@ -7,6 +7,7 @@ import com.office.backend.domain.repository.OrderRepository;
 import com.office.backend.domain.repository.ProductRepository;
 import com.office.backend.domain.services.OrderDomainService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class CreateOrderUseCase {
         this.orderDomainService = orderDomainService;
     }
     
+    @Transactional
     public Order execute(Long userId, List<OrderItemRequest> itemRequests) {
         List<OrderItem> items = itemRequests.stream()
             .map(this::toOrderItem)

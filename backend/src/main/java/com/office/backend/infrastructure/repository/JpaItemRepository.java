@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface JpaItemRepository extends JpaRepository<ItemEntity, Long> {
     List<ItemEntity> findByUserId(Long userId);
+    void deleteByProductId(Long productId);
 }

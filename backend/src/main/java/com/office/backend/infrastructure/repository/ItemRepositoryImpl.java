@@ -42,6 +42,11 @@ public class ItemRepositoryImpl implements ItemRepository {
         jpaItemRepository.deleteById(id);
     }
     
+    @Override
+    public void deleteByProductId(Long productId) {
+        jpaItemRepository.deleteByProductId(productId);
+    }
+    
     private Item toDomain(ItemEntity entity) {
         Product product = toDomainProduct(entity.getProduct());
         return new Item(

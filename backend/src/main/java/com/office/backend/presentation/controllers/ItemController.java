@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import org.springframework.http.ResponseEntity;
 import com.office.backend.infrastructure.security.JwtUtil;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ItemController {
     }
     
     @PostMapping
+    @Transactional
     public ResponseEntity<Map<String, Object>> createItem(@RequestBody Map<String, Object> itemData, 
                                                           @RequestHeader(value = "Authorization", required = false) String authHeader) {
         // First create product
@@ -63,6 +65,7 @@ public class ItemController {
     }
     
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         itemRepository.deleteById(id);
         return ResponseEntity.ok().build();
@@ -75,7 +78,8 @@ public class ItemController {
         
         try {
             String token = authHeader.substring(7);
-            return jwtUtil.getUserIdFromToken(token);
+            Long userId = jwtUtil.getUserIdFromToken(token);
+            return userId != null ? userId : 1L; // Ensure non-null userId
         } catch (Exception e) {
             return 1L; // Default user if token is invalid
         }

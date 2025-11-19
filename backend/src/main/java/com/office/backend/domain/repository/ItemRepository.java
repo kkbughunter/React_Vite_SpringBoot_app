@@ -9,4 +9,5 @@ public interface ItemRepository {
     Item save(Item item);
     Optional<Item> findById(Long id);
     void deleteById(Long id);
+    void deleteByProductId(Long productId);
 }

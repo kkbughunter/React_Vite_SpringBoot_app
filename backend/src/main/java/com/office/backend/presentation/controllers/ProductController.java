@@ -6,7 +6,9 @@ import com.office.backend.application.mappers.ProductMapper;
 import com.office.backend.application.usecases.CreateProductUseCase;
 import com.office.backend.domain.model.Product;
 import com.office.backend.domain.repository.ProductRepository;
+import com.office.backend.domain.repository.ItemRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +20,14 @@ public class ProductController {
     private final CreateProductUseCase createProductUseCase;
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ItemRepository itemRepository;
     
-    public ProductController(CreateProductUseCase createProductUseCase, ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductController(CreateProductUseCase createProductUseCase, ProductRepository productRepository, 
+                           ProductMapper productMapper, ItemRepository itemRepository) {
         this.createProductUseCase = createProductUseCase;
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.itemRepository = itemRepository;
     }
     
     @GetMapping
@@ -61,8 +66,12 @@ public class ProductController {
     }
     
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         if (productRepository.findById(id).isPresent()) {
+            // First delete related items
+            itemRepository.deleteByProductId(id);
+            // Then delete the product
             productRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
